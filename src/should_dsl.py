@@ -5,6 +5,7 @@ class Should(object):
     def __init__(self, negate=False):
         self._negate = negate
         self._is_thrown_by = False
+        self.should_functions_by_name = dict()
     
     def _evaluate(self, value):
         if self._negate:
@@ -99,6 +100,36 @@ class Should(object):
             else:
                 return True
             
+    def add_should(self, function):
+        '''Adds a new should case.
+        The function must return a tuple (or any other __getitem__ compatible object)
+        containing three elements:
+        [0] = a function taking one or two parameters, that will do the desired comparison
+        [1] = the error message. this message must contain three %s placeholders. By example,
+        "%s is %snicer than %s" can result in "Python is nicer than Ruby" or 
+        "Python is not nicer than Ruby" depending whether <<should_be.function_name>> or
+        <<should_not_be.function_name>> be applied.
+        [2] True if there is a rvalue, otherwise False
+        '''
+        self.should_functions_by_name[function.__name__] = function
+
+    def __getattr__(self, method_info):
+        def method_missing(*args):
+            try:
+                function = self.should_functions_by_name[str(method_info)]
+                result = function()
+                self._func = result[0]
+                error_message = result[1]
+                self._has_rvalue = result[2]
+                if self._has_rvalue:
+                    self._error_message = lambda x, y: error_message % (x, self._negate_str(), y)
+                else:
+                    self._error_message = lambda x: error_message % (x, self._negate_str()) 
+                return self
+            except KeyError:
+                raise AttributeError, "'%s' object has no attribute '%s'" % (self.__class__, str(method_info))
+        return method_missing()
+            
             
 class ShouldNotSatisfied(Exception):
     pass
@@ -107,3 +138,7 @@ should_be = Should(negate=False)
 should_not_be = Should(negate=True)
 should_have = Should(negate=False).have
 should_not_have = Should(negate=True).have
+
+def add_should_case(method):
+    should_be.add_should(method)
+    should_not_be.add_should(method)
