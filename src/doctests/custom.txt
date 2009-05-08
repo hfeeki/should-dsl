@@ -1,18 +1,19 @@
 >>> from should_dsl import *
 
->>> def greater_than():
-...    has_rvalue = True
-...    return (lambda x, y: x > y, "%s is %sgreater than %s", has_rvalue)
->>> add_should_case(greater_than)
->>> 3 <<should_be.greater_than>> 2
+>>> @should_case 
+... def the_square_root_of():
+...     import math
+...     has_rvalue = True
+...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s", has_rvalue)
+>>> 3 |should_be.the_square_root_of| 9
 True
->>> 2 <<should_be.greater_than>> 3
+>>> 2 |should_be.the_square_root_of| 4.1
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 2 is not greater than 3
->>> 2 <<should_not_be.greater_than>> 3
+ShouldNotSatisfied: 2 is not the square root of 4.1
+>>> 2 |should_not_be.the_square_root_of| 3
 True
->>> 3 <<should_not_be.greater_than>> 2
+>>> 3 |should_not_be.the_square_root_of| 9
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 3 is greater than 2
+ShouldNotSatisfied: 3 is the square root of 9

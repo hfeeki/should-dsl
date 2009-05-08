@@ -18,12 +18,18 @@ class Should(object):
         return ''
     
     def __rlshift__(self, lvalue):
+        return self.__ror__(lvalue)
+    
+    def __ror__(self, lvalue):
         self._lvalue = lvalue
         if not self._has_rvalue:
             return self._check_assertion()
         return self
     
     def __rshift__(self, rvalue):
+        return self.__or__(rvalue)
+    
+    def __or__(self, rvalue):
         self._rvalue = rvalue
         return self._check_assertion()
     
@@ -66,6 +72,34 @@ class Should(object):
     def have(self):
         self._func = lambda container, item: item in container
         self._error_message = lambda container, item: '%s does %shave %s' % (container, self._negate_str(), item)
+        self._has_rvalue = True
+        return self
+    
+    @property
+    def greater_than(self):
+        self._func = lambda x, y: x > y
+        self._error_message = lambda x, y: '%s is %sgreater than %s' % (x, self._negate_str(), y)
+        self._has_rvalue = True
+        return self 
+    
+    @property
+    def greater_than_or_equal_to(self):
+        self._func = lambda x, y: x >= y
+        self._error_message = lambda x, y: '%s is %sgreater than or equal to %s' % (x, self._negate_str(), y)
+        self._has_rvalue = True
+        return self
+    
+    @property
+    def less_than(self):
+        self._func = lambda x, y: x < y
+        self._error_message = lambda x, y: '%s is %sless than %s' % (x, self._negate_str(), y)
+        self._has_rvalue = True
+        return self
+    
+    @property
+    def less_than_or_equal_to(self):
+        self._func = lambda x, y: x <= y
+        self._error_message = lambda x, y: '%s is %sless than or equal to %s' % (x, self._negate_str(), y)
         self._has_rvalue = True
         return self
     
@@ -129,7 +163,7 @@ class Should(object):
             except KeyError:
                 raise AttributeError, "'%s' object has no attribute '%s'" % (self.__class__, str(method_info))
         return method_missing()
-            
+
             
 class ShouldNotSatisfied(Exception):
     pass
@@ -139,6 +173,7 @@ should_not_be = Should(negate=True)
 should_have = Should(negate=False).have
 should_not_have = Should(negate=True).have
 
-def add_should_case(method):
+def should_case(method):
     should_be.add_should(method)
     should_not_be.add_should(method)
+    return method   
