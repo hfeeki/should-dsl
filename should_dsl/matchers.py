@@ -180,6 +180,7 @@ class BeLike(object):
     def __call__(self, regex, flags=0):
         self._regex = regex
         self._flags = flags
+        self._flag_names = []
         return self
 
     def match(self, lvalue):
@@ -188,16 +189,33 @@ class BeLike(object):
 
     def message_for_failed_should(self):
         return "%r is not like %r%s" % (self._lvalue, self._regex,
-            self._flags and ' with given flags' or '')
+            self._flags and self._flags_string() or '')
 
     def message_for_failed_should_not(self):
         return "%r is like %r%s" % (self._lvalue, self._regex,
-            self._flags and ' with given flags' or '')
+            self._flags and self._flags_string() or '')
+
+    def __getattr__(self, attrname):
+        flag_name = attrname.upper().replace('_', '')
+        flag_value = getattr(re, flag_name, None)
+        if flag_value:
+            self._flags += flag_value
+            self._flag_names.append(flag_name)
+            return lambda: self
+        else:
+            object.__getattr__(self, attrname)
+
+    def _list_to_human_readable(self, list_):
+        if len(list_) == 1:
+            return str(list_[0])
+        return "%s and %s" % (", ".join(list_[0:-1]), list_[-1])
+
+    def _flags_string(self):
+        return ' with %s flags' % \
+            self._list_to_human_readable(self._flag_names or ['given'])
 
 
 matcher(BeLike)
-#def be_like():
-#    return (lambda string, regex: re.match(regex, string) is not None, '%r is %slike %r')
 
 
 @matcher

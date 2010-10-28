@@ -20,3 +20,21 @@ Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 'Hello\nWorld' is like 'hello.+' with given flags
 
+
+
+>>> 'Hello\nWorld' |should| be_like(r'Hello.+').dotall()
+
+>>> 'Hello\nWorld' |should| be_like(r'hello.+').dotall().ignore_case()
+
+>>> 'Hello\nWorld' |should| be_like(r'hello.+').dotall().ignorecase()
+
+>>> 'Hello\nWorld' |should| be_like(r'hello.+').ignore_case()
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 'Hello\nWorld' is not like 'hello.+' with IGNORECASE flags
+
+>>> 'Hello\nWorld' |should_not| be_like(r'hel.+').ignore_case().dotall()
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 'Hello\nWorld' is like 'hel.+' with IGNORECASE and DOTALL flags
+
