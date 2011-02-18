@@ -1,0 +1,9 @@
+>>> from should_dsl import should
+
+>>> class Foo:
+...     def __or__(self, outro):
+...         return True
+
+>>> foo = Foo()
+>>> foo /should/ be(foo)
+

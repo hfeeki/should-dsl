@@ -20,11 +20,23 @@ class Should(object):
         return value
 
     def __ror__(self, lvalue):
+        return self._left_operator_action(lvalue)
+
+    def __rdiv__(self, lvalue):
+        return self._left_operator_action(lvalue)
+
+    def _left_operator_action(self, lvalue):
         self._lvalue = lvalue
         self._create_function_matchers()
         return self
 
     def __or__(self, rvalue):
+        return self._right_operator_action(rvalue)
+
+    def __div__(self, rvalue):
+        return self._right_operator_action(rvalue)
+
+    def _right_operator_action(self, rvalue):
         self._destroy_function_matchers()
         self._rvalue = rvalue
         return self._check_expectation()
@@ -37,7 +49,7 @@ class Should(object):
 
 
     def _destroy_function_matchers(self):
-        self._outer_frame = sys._getframe(2).f_globals
+        self._outer_frame = sys._getframe(3).f_globals
         self._remove_matchers_from_namespace()
         self._put_original_identifiers_back()
 
@@ -64,7 +76,7 @@ class Should(object):
 
 
     def _create_function_matchers(self):
-        self._outer_frame = sys._getframe(2).f_globals
+        self._outer_frame = sys._getframe(3).f_globals
         self._save_clashed_identifiers()
         self._put_matchers_on_namespace()
 
