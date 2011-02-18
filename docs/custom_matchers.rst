@@ -10,7 +10,7 @@ Simple Custom Matchers through Functions
 
 For extending Should-DSL with simple matchers a simple decorated function is enough. The function name must be the name of the matcher. The function must have no parameters and it must return a tuple containing two elements.
 
-The first tuple item is the function (or lambda), receiving two parameters, to be run for the comparison, and the second is the failure message. The failure message must have three string formatting operators (like ``%s``, ``%r``, ``%d``, etc) placeholders. The first and the third will be used for the actual and expected values, respectively. The second operator will be the placeholder for a 'not ' string for failed expectations or an empty string for succeded expectation - and the opossite if ``should_not`` is used.
+The first tuple item is the function (or lambda), receiving two parameters, to be run for the comparison, and the second is the failure message. The failure message must have three string formatting operators (like ``%s``, ``%r``, ``%d``, etc) placeholders. The first operator will be the placeholder for a 'not ' string for failed |should_not| expectations, and an empty string for failed |should| ones. The second and the third will be used for the expected and actual values, respectively. The message is intended to be something like "expected [not ]something from expected_value, got actual_value", but you can use anything you want as long as your message has the same order (placeholder for "not ", expected value, actual value).
 
 ::
 
@@ -39,7 +39,7 @@ The first tuple item is the function (or lambda), receiving two parameters, to b
 Not So Simple Matchers through Classes
 ======================================
 
-If your custom matcher has a more complex behaviour, or if both should and should_not messages differ, you can create custom matchers as classes. In fact, classes as matchers are the preferred way to create matchers, being function matchers only a convenience for simple cases.
+If your custom matcher has a more complex behaviour, or if both should and should_not messages differ, or if your messages need to be more richer than those provided by function matchers, you can create custom matchers as classes. In fact, classes as matchers are the preferred way to create matchers, being function matchers only a convenience for simple cases.
 
 Below is an example of the square root matcher defined as a class::
 
