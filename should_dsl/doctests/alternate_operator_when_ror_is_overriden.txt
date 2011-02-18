@@ -1,9 +1,34 @@
 >>> from should_dsl import should
 
->>> class Foo:
+>>> class Spam:
 ...     def __or__(self, outro):
 ...         return True
 
->>> foo = Foo()
->>> foo /should/ be(foo)
+>>> spam = Spam()
+>>> spam /should/ be(spam)
+
+>>> class Eggs: pass
+
+>>> eggs = Eggs()
+>>> eggs /should/ be(eggs)
+Traceback (most recent call last):
+   ...
+TypeError: /should/ is supported only if the actual object overrides __or__, use |should| instead
+
+>>> "a" /should/ equal_to("a")
+Traceback (most recent call last):
+    ...
+TypeError: /should/ is supported only if the actual object overrides __or__, use |should| instead
+
+
+>>> 1 /should/ equal_to(1)
+Traceback (most recent call last):
+    ...
+TypeError: /should/ is supported only if the actual object overrides __or__, use |should| instead
+
+
+>>> True /should/ be(True)
+Traceback (most recent call last):
+    ...
+TypeError: /should/ is supported only if the actual object overrides __or__, use |should| instead
 

@@ -23,6 +23,7 @@ class Should(object):
         return self._left_operator_action(lvalue)
 
     def __rdiv__(self, lvalue):
+        self._ensure_actual_object_needs_div_operator(lvalue)
         return self._left_operator_action(lvalue)
 
     def _left_operator_action(self, lvalue):
@@ -47,6 +48,9 @@ class Should(object):
                 self._rvalue.message_for_failed_should_not() or \
                 self._rvalue.message_for_failed_should())
 
+    def _ensure_actual_object_needs_div_operator(self, actual):
+        if not (hasattr(actual, '__or__') and 'instance' in str(type(actual))):
+            raise TypeError("/should/ is supported only if the actual object overrides __or__, use |should| instead")
 
     def _destroy_function_matchers(self):
         self._outer_frame = sys._getframe(3).f_globals
