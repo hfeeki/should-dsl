@@ -5,5 +5,10 @@
 >>> 'hello motto' |should| end_with('world')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 'hello motto' does not end with 'world'
+ShouldNotSatisfied: expected end with 'world', got 'hello motto'
+
+>>> 'hello world' |should_not| end_with('world')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected not end with 'world', got 'hello world'
 

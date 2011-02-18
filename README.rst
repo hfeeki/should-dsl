@@ -15,7 +15,7 @@ For example::
     >>> 3 |should| be_into([0, 1, 2])
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: 3 is not into [0, 1, 2]
+    ShouldNotSatisfied: expected into [0, 1, 2], got 3
 
 
 The ``equal_to`` matcher verifies object equality. If you want to ensure identity, you must use ``be`` as matcher::
@@ -38,5 +38,5 @@ A nice example of exceptions would be::
     >>> 'should' |should_not| include('oul')
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: 'should' does include 'oul'
+    ShouldNotSatisfied: expected not include 'oul', got 'should'
 

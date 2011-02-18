@@ -5,5 +5,5 @@
 >>> 'Hello world' |should| start_with('Hola')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 'Hello world' does not start with 'Hola'
+ShouldNotSatisfied: expected start with 'Hola', got 'Hello world'
 

@@ -14,12 +14,12 @@
 >>> "I" |should| equal_to_ignoring_case("wi")
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 'I' is not equal to 'wi' ignoring case
+ShouldNotSatisfied: expected equal to 'wi' ignoring case, got 'I'
 
 >>> "I" |should| equal_to_ignoring_case("iw")
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 'I' is not equal to 'iw' ignoring case
+ShouldNotSatisfied: expected equal to 'iw' ignoring case, got 'I'
 
 >>> "Atenção" |should| equal_to_ignoring_case("ATENÇÃO")
 

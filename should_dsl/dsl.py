@@ -122,9 +122,9 @@ class Should(object):
                     self._value = value
                     return self._function(self._value, self.arg)
                 def message_for_failed_should(self):
-                    return self._message % (self._value, "not ", self.arg)
+                    return self._message % ("", self.arg, self._value)
                 def message_for_failed_should_not(self):
-                    return self._message % (self._value, "", self.arg)
+                    return self._message % ("not ", self.arg, self._value)
             matcher_object = GeneratedMatcher
             name = GeneratedMatcher.name
         else:

@@ -28,42 +28,42 @@ matcher(Be)
 
 @matcher
 def include():
-    return (lambda container, item: item in container, "%r does %sinclude %r")
+    return (lambda container, item: item in container, "expected %sinclude %r, got %r")
 
 
 @matcher
 def contain():
-    return (lambda container, item: item in container, "%r does %scontain %r")
+    return (lambda container, item: item in container, "expected %scontain %r, got %r")
 
 
 @matcher
 def equal_to():
-    return (lambda x, y: x == y, '%r is %sequal to %r')
+    return (lambda x, y: x == y, 'expected %sequal to %r, got %r')
 
 
 @matcher
 def be_into():
-    return (lambda item, container: item in container, '%r is %sinto %r')
+    return (lambda item, container: item in container, 'expected %sinto %r, got %r')
 
 
 @matcher
 def be_greater_than():
-    return (lambda x, y: x > y, '%r is %sgreater than %r')
+    return (lambda x, y: x > y, 'expected %sgreater than %r, got %r')
 
 
 @matcher
 def be_greater_than_or_equal_to():
-    return (lambda x, y: x >= y, '%r is %sgreater than or equal to %r')
+    return (lambda x, y: x >= y, 'expected %sgreater than or equal to %r, got %r')
 
 
 @matcher
 def be_less_than():
-    return (lambda x, y: x < y, '%r is %sless than %r')
+    return (lambda x, y: x < y, 'expected %sless than %r, got %r')
 
 
 @matcher
 def be_less_than_or_equal_to():
-    return (lambda x, y: x <= y, '%r is %sless than or equal to %r')
+    return (lambda x, y: x <= y, 'expected %sless than or equal to %r, got %r')
 
 
 def check_exception(expected_exception, callable_and_possible_params):
@@ -85,7 +85,7 @@ def check_exception(expected_exception, callable_and_possible_params):
 
 @matcher
 def be_thrown_by():
-    return (check_exception, '%r is %sthrown by %r')
+    return (check_exception, 'expected %s%r throws %r')
 
 
 class Throw:
@@ -152,12 +152,12 @@ def include_in_any_order():
             if element not in container:
                 return False
         return True
-    return (contains_in_any_order, "%r does %sinclude in any order %r")
+    return (contains_in_any_order, "expected %sinclude in any order %r, got %r")
 
 
 @matcher
 def include_all_of():
-    return (include_in_any_order()[0], "%r does %sinclude all of %r")
+    return (include_in_any_order()[0], "expected %sinclude all of %r, got %r")
 
 
 @matcher
@@ -167,27 +167,27 @@ def include_any_of():
             if element in container:
                 return True
         return False
-    return (include_any_of_func, "%r does %sinclude any of %r")
+    return (include_any_of_func, "expected %sinclude any of %r, got %r")
 
 
 @matcher
 def be_kind_of():
-    return (lambda obj, kind: isinstance(obj, kind), "%r is %s a kind of %r")
+    return (lambda obj, kind: isinstance(obj, kind), "expected %skind of %r, got %r")
 
 
 @matcher
 def be_instance_of():
-    return (lambda obj, kind: isinstance(obj, kind), "%r is %s an instance of %r")
+    return (lambda obj, kind: isinstance(obj, kind), "expected %sinstance of %r, got %r")
 
 
 @matcher
 def start_with():
-    return (lambda x, y: x.startswith(y), "%r does %sstart with %r")
+    return (lambda x, y: x.startswith(y), "expected %sstart with %r, got %r")
 
 
 @matcher
 def end_with():
-    return (lambda x, y: x.endswith(y), "%r does %send with %r")
+    return (lambda x, y: x.endswith(y), "expected %send with %r, got %r")
 
 
 class BeLike(object):
@@ -223,7 +223,7 @@ def equal_to_ignoring_case():
     except NameError:
         # py3k is unicode by default
         lower = lambda x: x.lower()
-    return (lambda x, y: lower(x) == lower(y), '%r is %sequal to %r ignoring case')
+    return (lambda x, y: lower(x) == lower(y), 'expected %sequal to %r ignoring case, got %r')
 
 
 class Have(object):

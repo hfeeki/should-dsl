@@ -19,20 +19,20 @@ The first tuple item is the function (or lambda), receiving two parameters, to b
     >>> @matcher
     ... def be_the_square_root_of():
     ...     import math
-    ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
+    ...     return (lambda x, y: x == math.sqrt(y), "expected %sthe square root of %s, got %s")
 
     >>> 3 |should| be_the_square_root_of(9)
 
     >>> 4 |should| be_the_square_root_of(9)
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: 4 is not the square root of 9
+    ShouldNotSatisfied: expected the square root of 9, got 4
 
 
     >>> 4 |should_not| be_the_square_root_of(16)
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: 4 is the square root of 16
+    ShouldNotSatisfied: expected not the square root of 16, got 4
 
 
 

@@ -9,14 +9,14 @@
 >>> import math
 >>> @matcher
 ... def be_the_square_root_of():
-...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
+...     return (lambda x, y: x == math.sqrt(y), "expected %sthe square root of %s, got %s")
 
 >>> 3 |should| be_the_square_root_of(9)
 
 >>> 2 |should| be_the_square_root_of(4.1)
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 2 is not the square root of 4.1
+ShouldNotSatisfied: expected the square root of 4.1, got 2
 
 
 >>> equal_to

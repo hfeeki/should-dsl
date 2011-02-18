@@ -7,8 +7,7 @@
 >>> 2 |should| be_less_than_or_equal_to(1)
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 2 is not less than or equal to 1
-
+ShouldNotSatisfied: expected less than or equal to 1, got 2
 >>> 2 |should_not| be_less_than_or_equal_to(1)
 
 >>> name = 'a'
@@ -19,5 +18,5 @@ ShouldNotSatisfied: 2 is not less than or equal to 1
 >>> name |should_not| be_less_than_or_equal_to('b')
 Traceback (most recent call last):
     ...
-ShouldNotSatisfied: 'a' is less than or equal to 'b'
+ShouldNotSatisfied: expected not less than or equal to 'b', got 'a'
 
