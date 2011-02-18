@@ -1,11 +1,26 @@
->>> from should_dsl import should
+>>> from should_dsl import should, should_not
+
+Objects that have an __or__ method will not work properly with standard should-dsl form, that uses __ror__ operator. For these cases, should_dsl provides an alternative form using the div operator:
 
 >>> class Spam:
 ...     def __or__(self, outro):
 ...         return True
 
 >>> spam = Spam()
+>>> spam |should| be(spam)
+Traceback (most recent call last):
+    ...
+NameError: name 'be' is not defined
+
 >>> spam /should/ be(spam)
+
+
+If the object having __or__ is the expected object, everything works normally.
+
+>>> "spam" |should_not| be(spam)
+
+
+The alternative form can only be used if the actual object really needs it:
 
 >>> class Eggs: pass
 
@@ -21,7 +36,9 @@ Traceback (most recent call last):
 TypeError: /should/ is supported only if the actual object overrides __or__, use |should| instead
 
 
->>> 1 /should/ equal_to(1)
+Built-in objects that have an __or__ method (e.g. integer numbers, True and False) but works fine with standard |should| will not accept the div form:
+
+>>> 1 /should/ be(1)
 Traceback (most recent call last):
     ...
 TypeError: /should/ is supported only if the actual object overrides __or__, use |should| instead
