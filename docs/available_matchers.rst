@@ -26,7 +26,7 @@ Checks object identity (*is*).
     >>> a |should| be(b)
     Traceback (most recent call last):
     ...
-    ShouldNotSatisfied: 'some message' was expected to be 'some message'
+    ShouldNotSatisfied: expected 'some message', got 'some message'
 
     >>> c = "another message"
     >>> d = c
