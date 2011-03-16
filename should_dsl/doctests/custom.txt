@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, matcher, matcher_configuration
 >>> import math
 
 >>> @matcher
@@ -13,6 +13,72 @@ Traceback (most recent call last):
 ShouldNotSatisfied: 2 is not the square root of 4.1
 
 >>> 2 |should_not| be_the_square_root_of(3)
+
+>>> 3 |should_not| be_the_square_root_of(9)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 3 is the square root of 9
+
+
+
+
+The order of "actual", "expected", and an eventual "not" can be specified. You
+should pass a tuple with the order as third element.
+
+By default, 'not ' is added to should error messages. If you want 'not ' shown
+as part of should_not error messages, you should pass should_not as the fourth
+element of the tuple returned by your custom matcher.
+
+>>> @matcher
+... def be_triple():
+...     return matcher_configuration(
+...               verifier=lambda x, y: x == y * 3,
+...               message="expected %striple %s, got %s",
+...               order=("not", "expected", "actual"),
+...               not_in=should_not)
+
+>>> 3.1 |should| be_triple(1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected triple 1, got 3.1
+
+>>> 3 |should_not| be_triple(1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected not triple 1, got 3
+
+
+
+If information about "not" is not given, "not" is applied to should by default.
+
+>>> @matcher
+... def be_the_square_root_of():
+...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s",
+...             ("actual", "not", "expected"))
+
+>>> 2 |should| be_the_square_root_of(4.1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 2 is not the square root of 4.1
+
+>>> 3 |should_not| be_the_square_root_of(9)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 3 is the square root of 9
+
+
+
+But should can be informed.
+
+>>> @matcher
+... def be_the_square_root_of():
+...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s",
+...             ("actual", "not", "expected"), should)
+
+>>> 2 |should| be_the_square_root_of(4.1)
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: 2 is not the square root of 4.1
 
 >>> 3 |should_not| be_the_square_root_of(9)
 Traceback (most recent call last):

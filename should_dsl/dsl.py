@@ -110,21 +110,26 @@ class Should(object):
     def add_matcher(self, matcher_object):
         if (hasattr(matcher_object, 'func_name') or
             isinstance(matcher_object, FunctionType)):
-            function, message = matcher_object()
+            function, message, order, not_for_should, not_for_should_not = \
+                self._process_custom_matcher_function(matcher_object)
             class GeneratedMatcher(object):
                 name = matcher_object.__name__
                 def __init__(self):
                     self._function, self._message = function, message
                 def __call__(self, arg):
-                    self.arg = arg
+                    self._arg = arg
                     return self
                 def match(self, value):
                     self._value = value
-                    return self._function(self._value, self.arg)
+                    return self._function(self._value, self._arg)
                 def message_for_failed_should(self):
-                    return self._message % (self._value, "not ", self.arg)
+                    return self._build_message(not_for_should)
                 def message_for_failed_should_not(self):
-                    return self._message % (self._value, "", self.arg)
+                    return self._build_message(not_for_should_not)
+                def _build_message(self, not_):
+                    elements = order.expected(self._arg).not_(not_).actual(self._value).elements
+                    return self._message % tuple(elements)
+
             matcher_object = GeneratedMatcher
             name = GeneratedMatcher.name
         else:
@@ -145,6 +150,33 @@ class Should(object):
     def _get_all_public_attr_names(self, obj):
         return [attr_name for attr_name in dir(obj) if not attr_name.startswith('_')]
 
+    def _process_custom_matcher_function(self, matcher_function):
+        values = matcher_function()
+        function, message = values[0:2]
+        order = len(values) == 2 and _MatcherOrder() or _MatcherOrder(self._order_dict(values[2]))
+        if len(values) <= 3:
+            nots = ('not ', '')
+        else:
+            nots = values[3]._negate and ('', 'not ') or ('not ', '')
+        return (function, message, order) + nots
+
+    def _order_dict(self, order):
+        return {order[0]: 0, order[1]: 1, order[2]: 2}
+
+
+class _MatcherOrder(object):
+    def __init__(self, order={'actual': 0, 'not': 1, 'expected': 2}):
+        self._order = order
+        self.elements = [None, None, None]
+    def expected(self, value):
+        self.elements[self._order['expected']] = value
+        return self
+    def not_(self, value):
+        self.elements[self._order['not']] = value
+        return self
+    def actual(self, value):
+        self.elements[self._order['actual']] = value
+        return self
 
 class _PredicateMatcher(object):
 
@@ -212,4 +244,8 @@ def matcher(matcher_object):
 
 def add_predicate_regex(regex):
     _predicate_regexes.update([regex])
+
+
+def matcher_configuration(verifier, message, order=(), not_in=should_not):
+    return (verifier, message, order, not_in)
 

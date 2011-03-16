@@ -1,6 +1,7 @@
 from should_dsl.dsl import (should,
                          should_not,
                          matcher,
-                         add_predicate_regex,)
+                         add_predicate_regex,
+                         matcher_configuration,)
 from should_dsl import matchers
 
