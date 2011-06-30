@@ -50,3 +50,21 @@ ShouldNotSatisfied: expected not to throw 'Foo' with the message 'who?', but got
 
 >>> (lambda: raise_foo('who?')) |should_not| throw(Foo, message='what?')
 
+
+
+If the expected message does not equal to the actual messsage, should-dsl handles
+the expected message as being a regular expression.
+
+>>> (raise_foo, 'what a pro!') |should| throw(Foo, message=r'what a .+!')
+>>> (raise_foo, 'what a jerk!') |should| throw(Foo, message=r'what a .+!')
+>>> (raise_foo, 'what a pro?') |should_not| throw(Foo, message=r'what a .+!')
+>>> (raise_foo, 'what da hell!') |should_not| throw(Foo, message=r'what a .+!')
+
+
+vut should-dsl has no means to know if a failed match was a regular expression:
+
+>>> (raise_foo, 'what a pro?') |should| throw(Foo, message=r'what a .+!')
+Traceback (most recent call last):
+    ...
+ShouldNotSatisfied: expected to throw 'Foo' with the message 'what a .+!', got 'Foo' with 'what a pro?'
+

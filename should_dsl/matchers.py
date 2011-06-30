@@ -118,7 +118,10 @@ class Throw:
             if self._expected_message is None:
                 return True
             self._actual_message = str(e)
-            return self._actual_message == self._expected_message
+            if self._actual_message == self._expected_message:
+                return True
+            return re.match(self._expected_message, self._actual_message) is not None
+
         except Exception:
             e = sys.exc_info()[1]
             self._actual_exception = e.__class__
