@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, be_empty
 
 >>> [] |should| be_empty
 

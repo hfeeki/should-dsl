@@ -21,6 +21,8 @@ The first tuple item is the function (or lambda), receiving two parameters, to b
     ...     import math
     ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
 
+    >>> from should_dsl import be_the_square_root_of
+
     >>> 3 |should| be_the_square_root_of(9)
 
     >>> 4 |should| be_the_square_root_of(9)
@@ -67,6 +69,8 @@ Below is an example of the square root matcher defined as a class::
     ...
     >>> matcher(SquareRoot)
     <class ...SquareRoot...>
+
+    >>> from should_dsl import be_the_square_root_of
     >>> 3 |should| be_the_square_root_of(9)
     >>> 4 |should| be_the_square_root_of(9)
     Traceback (most recent call last):
@@ -120,6 +124,8 @@ way, if should fails, should_not passes. However, this is not true for all match
 Depending on your matcher semantics, the same expected and actual values can
 fail or pass both should and should_not. A good example is the matcher
 include_keys. The calls shown below will fail::
+
+    >>> from should_dsl import include_keys
 
     >>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'd')
     Traceback (most recent call last):

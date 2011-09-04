@@ -4,5 +4,8 @@
 >>> @matcher
 ... def be_the_square_root_of():
 ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
+
+>>> from should_dsl import be_the_square_root_of
+
 >>> 3 |should| be_the_square_root_of(9)
 

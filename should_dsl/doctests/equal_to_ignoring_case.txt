@@ -1,6 +1,6 @@
 #coding: utf-8
 
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, equal_to_ignoring_case
 
 >>> "I'm specifying it" |should| equal_to_ignoring_case("I'M SPECIFYING it")
 

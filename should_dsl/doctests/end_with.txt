@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, end_with
 
 >>> 'hello world' |should| end_with('world')
 

@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, equal_to
 
 >>> 1 |should| equal_to(1)
 

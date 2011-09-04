@@ -11,6 +11,8 @@
 >>> matcher(FooMatcher)
 <class 'FooMatcher'>
 
+>>> from should_dsl import be_a_foo_object
+
 >>> 1 |should| be_a_foo_object
 Ran with negate? False
 
@@ -30,6 +32,8 @@ Matchers which __slots__ attribute will not cause AttributeError.
 
 >>> matcher(BarMatcher)
 <class 'BarMatcher'>
+
+>>> from should_dsl import be_a_bar_object
 
 >>> 1 |should| be_a_bar_object
 

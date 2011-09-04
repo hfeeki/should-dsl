@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, close_to
 
 >>> 1 |should| close_to(0.9, delta=0.1)
 

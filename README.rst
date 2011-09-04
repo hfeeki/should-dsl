@@ -8,7 +8,7 @@ In order to use this DSL, you need to import ``should`` and ``should_not`` objec
 
 For example::
 
-    >>> from should_dsl import should
+    >>> from should_dsl import should, equal_to, include, be_into
 
     >>> 1 |should| equal_to(1)
     >>> 'should' |should| include('oul')
@@ -20,11 +20,13 @@ For example::
 
 The ``equal_to`` matcher verifies object equality. If you want to ensure identity, you must use ``be`` as matcher::
 
+    >>> from should_dsl import be
     >>> 2 |should| be(2)
 
 
 A nice example of exceptions would be::
 
+    >>> from should_dsl import throw
     >>> def raise_zerodivisionerror():
     ...     return 1/0
     >>> raise_zerodivisionerror |should| throw(ZeroDivisionError)

@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not, matcher
+>>> from should_dsl import should, should_not, matcher, have_at_most
 
 >>> ['a', 'b', 'c'] |should| have_at_most(3).elements
 

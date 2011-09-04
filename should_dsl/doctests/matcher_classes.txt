@@ -18,6 +18,8 @@
 ...
 >>> SquareRootMatcher = matcher(SquareRootMatcher)
 
+>>> from should_dsl import be_the_square_root_of
+
 >>> 3 |should| be_the_square_root_of(9)
 
 >>> 1 |should| be_the_square_root_of(3)

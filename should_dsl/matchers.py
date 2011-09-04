@@ -445,12 +445,8 @@ class Change(object):
 
     name = 'change'
 
-    def __init__(self):
-        self._by = None
-        self._from_to = False
-        self._only_to = False
-
     def __call__(self, verifier):
+        self._reset()
         self._verifier = self._to_callable(verifier)
         return self
 
@@ -528,6 +524,11 @@ class Change(object):
         self._only_to = not self._from_to
         self._to_value = to_value
         return self
+
+    def _reset(self):
+        self._by = None
+        self._from_to = False
+        self._only_to = False
 
     def _to_callable(self, objekt):
         if hasattr(objekt, '__call__'):
@@ -721,3 +722,4 @@ class HaveSameAttributeValues(object):
         return "expected %r to have not the same attribute values as %r" % (self._actual_object, self._other_object)
 
 matcher(HaveSameAttributeValues)
+

@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, include, contain
 
 >>> [1,2,3] |should| include(1)
 

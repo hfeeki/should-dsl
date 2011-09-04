@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, have
 
 >>> class Field(object):
 ...     def __init__(self, number_of_players):

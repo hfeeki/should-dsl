@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, include_in_any_order
 
 >>> [1, 2, 3] |should| include_in_any_order([3, 1])
 

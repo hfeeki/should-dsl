@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, be_less_than_or_equal_to
 
 >>> 0.9 |should| be_less_than_or_equal_to(1)
 

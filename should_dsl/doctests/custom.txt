@@ -5,6 +5,8 @@
 ... def be_the_square_root_of():
 ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
 
+>>> from should_dsl import be_the_square_root_of
+
 >>> 3 |should| be_the_square_root_of(9)
 
 >>> 2 |should| be_the_square_root_of(4.1)
@@ -37,6 +39,8 @@ the tuple returned by your custom matcher.
 ...             "expected %(not)striple %(expected)s, got %(actual)s",
 ...             should_not)
 
+>>> from should_dsl import be_triple
+
 >>> 3.1 |should| be_triple(1)
 Traceback (most recent call last):
     ...
@@ -61,6 +65,8 @@ with same effects than passing a regular tuple.
 ...         word_not_for=should_not)
 
 
+>>> from should_dsl import be_triple
+
 >>> 3.1 |should| be_triple(1)
 Traceback (most recent call last):
     ...
@@ -75,6 +81,8 @@ should error messages by default.
 ... def be_the_square_root_of():
 ...     return (lambda x, y: x == math.sqrt(y),
 ...             "%(actual)s is %(not)sthe square root of %(expected)s")
+
+>>> from should_dsl import be_the_square_root_of
 
 >>> 2 |should| be_the_square_root_of(4.1)
 Traceback (most recent call last):
@@ -94,6 +102,9 @@ But 'should' can be informed.
 ... def be_the_square_root_of():
 ...     return (lambda x, y: x == math.sqrt(y),
 ...             "%(actual)s is %(not)sthe square root of %(expected)s", should)
+
+
+>>> from should_dsl import be_the_square_root_of
 
 >>> 2 |should| be_the_square_root_of(4.1)
 Traceback (most recent call last):

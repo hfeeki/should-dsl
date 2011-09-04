@@ -1,4 +1,5 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, matcher
+>>> from should_dsl import equal_to, be_into, include_in_any_order
 
 >>> 'abc' |should_not| equal_to('cba')
 
@@ -11,35 +12,12 @@
 ... def be_the_square_root_of():
 ...     return (lambda x, y: x == math.sqrt(y), "%s is %sthe square root of %s")
 
+>>> from should_dsl import be_the_square_root_of
+
 >>> 3 |should| be_the_square_root_of(9)
 
 >>> 2 |should| be_the_square_root_of(4.1)
 Traceback (most recent call last):
     ...
 ShouldNotSatisfied: 2 is not the square root of 4.1
-
-
->>> equal_to
-Traceback (most recent call last):
-    ...
-NameError: ... 'equal_to' ...
-
->>> 'abc' |should_not| equal_to('cba')
-
->>> equal_to
-Traceback (most recent call last):
-    ...
-NameError: ... 'equal_to' ...
-
-
->>> def equal_to():
-...     print('hey, it works')
-
->>> equal_to()
-hey, it works
-
->>> 'abc' |should_not| equal_to('cba')
-
->>> equal_to()
-hey, it works
 

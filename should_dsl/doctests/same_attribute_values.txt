@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, have_same_attribute_values_as
 
 >>> class Foo(object):
 ...    def __init__(self, a, b):
@@ -36,3 +36,4 @@ Deleting one attribute of the object
 
 
 >>> a |should_not| have_same_attribute_values_as(b)
+

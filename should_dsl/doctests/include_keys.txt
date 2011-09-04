@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, include_keys
 
 >>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a')
 

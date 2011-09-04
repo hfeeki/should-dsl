@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, be_into
 
 >>> 1 |should| be_into([1,2,3])
 

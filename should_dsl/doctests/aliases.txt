@@ -7,6 +7,8 @@ mixed languages. The following examples are in Portuguese.
 
 >>> aliases(equal_to='ser_igual_a', include='incluir', have='ter')
 
+>>> from should_dsl import ser_igual_a, incluir, ter
+
 >>> 1 |deve| ser_igual_a(1)
 >>> 'asas' |deve| incluir('sa')
 >>> [1, 2, 3] |deve| ter(3).elementos

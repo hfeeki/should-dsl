@@ -17,6 +17,7 @@ Checks object identity (*is*).
 
 ::
 
+    >>> from should_dsl import be
     >>> 1 |should| be(1)
 
     >>> a = "some message"
@@ -47,6 +48,7 @@ Simply check the return of comparisons.
 
 ::
 
+    >>> from should_dsl import be_greater_than, be_greater_than_or_equal_to, be_less_than, be_less_than_or_equal_to
     >>> 1 |should_not| be_greater_than(1)
     >>> 2 |should| be_greater_than_or_equal_to(2)
     >>> 0.1 |should| be_less_than(0.11)
@@ -63,6 +65,7 @@ Verify if an object is contained (*be_into*) or contains (*contain*) another. Th
 
 ::
 
+    >>> from should_dsl import be_into, contain, include
     >>> 1 |should| be_into(range(2))
     >>> ['a'] |should_not| be_into(['a'])
     >>> ['a'] |should| be_into([['a']])
@@ -76,6 +79,7 @@ Verifies if an object is empty. Works for lists, strings, tuples, dictionaries, 
 
 ::
 
+    >>> from should_dsl import be_empty
     >>> '' |should| be_empty
     >>> [] |should| be_empty
     >>> () |should| be_empty
@@ -88,6 +92,7 @@ Verifies if an object is of a given type.
 
 ::
 
+    >>> from should_dsl import be_kind_of
     >>> 1 |should| be_kind_of(int)
 
     >>> class Foo: pass
@@ -106,6 +111,7 @@ Checks matching against a regular expression.
 
 ::
 
+    >>> from should_dsl import be_like
     >>> 'Hello World' |should| be_like(r'Hello W.+')
     >>> '123 is a number' |should_not| be_like(r'^[12]+ is a number')
 
@@ -125,6 +131,7 @@ Check the raising  of exceptions.
 
 ::
 
+    >>> from should_dsl import throw, be_thrown_by
     >>> ZeroDivisionError |should| be_thrown_by(lambda: 1/0)
     >>> (lambda: 1/0.000001) |should_not| throw(ZeroDivisionError)
 
@@ -155,6 +162,7 @@ Checks for changes on the result of a given function, method or lambda.
 
 ::
 
+    >>> from should_dsl import change
     >>> class Box(object):
     ...     def __init__(self):
     ...         self.items = []
@@ -219,6 +227,7 @@ Checks if a number is close to another, given a delta.
 
 ::
 
+    >>> from should_dsl import close_to
     >>> 1 |should| close_to(0.9, delta=0.1)
     >>> 0.8 |should| close_to(0.9, delta=0.1)
     >>> 1 |should_not| close_to(0.89, delta=0.1)
@@ -231,6 +240,7 @@ Verifies if a string ends with a given suffix.
 
 ::
 
+    >>> from should_dsl import end_with
     >>> "Brazil champion of 2010 FIFA world cup" |should| end_with('world cup')
     >>> "hello world" |should_not| end_with('worlds')
 
@@ -241,6 +251,7 @@ Checks object equality (not identity).
 
 ::
 
+    >>> from should_dsl import equal_to
     >>> 1 |should| equal_to(1)
 
     >>> class Foo: pass
@@ -279,6 +290,7 @@ Checks equality of strings ignoring case.
 
 ::
 
+    >>> from should_dsl import equal_to_ignoring_case
     >>> 'abc' |should| equal_to_ignoring_case('AbC')
 
     >>> 'XYZAb' |should| equal_to_ignoring_case('xyzaB')
@@ -288,7 +300,9 @@ Checks equality of strings ignoring case.
 
 Checks the element count of a given collection. Works with iterables, requiring a qualifier expression for readability purposes, which is in fact only a syntax sugar.
 
-::)
+::
+
+    >>> from should_dsl import have
 
     >>> ['b', 'c', 'd'] |should| have(3).elements
 
@@ -330,6 +344,7 @@ The same as *have*, but checking if the element count is greater than or equal t
 
 ::
 
+    >>> from should_dsl import have_at_least
     >>> range(20) |should| have_at_least(19).items
     >>> range(20) |should| have_at_least(20).items
     >>> range(20) |should_not| have_at_least(21).items
@@ -341,6 +356,7 @@ The same as *have*, but checking if the element count is less than or equal to t
 
 ::
 
+    >>> from should_dsl import have_at_most
     >>> range(20) |should_not| have_at_most(19).items
     >>> range(20) |should| have_at_most(20).items
     >>> range(20) |should| have_at_most(21).items
@@ -354,6 +370,7 @@ Check if an iterable includes all elements of another. Both matchers do the same
 
 ::
 
+  >>> from should_dsl import include_all_of, include_in_any_order
    >>> [4, 5, 6, 7] |should| include_all_of([5, 6])
    >>> [4, 5, 6, 7] |should| include_in_any_order([5, 6])
    >>> ['b', 'c'] |should| include_all_of(['b', 'c'])
@@ -368,6 +385,7 @@ Checks if an iterable includes any element of another.
 
 ::
 
+    >>> from should_dsl import include_any_of
     >>> [1, 2, 3] |should| include_any_of([3, 4, 5])
     >>> (1,) |should| include_any_of([4, 6, 3, 1, 9, 7])
 
@@ -378,6 +396,7 @@ Checks if a dictionary includes all given keys.
 
 ::
 
+    >>> from should_dsl import include_keys
     >>> {'a': 1, 'b': 2, 'c': 3} |should| include_keys('a', 'b')
     >>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_keys('d')
 
@@ -388,6 +407,7 @@ Checks if a dictionary includes all given values.
 
 ::
 
+    >>> from should_dsl import include_values
     >>> {'a': 1, 'b': 2, 'c': 3} |should| include_values(2, 3)
     >>> {'a': 1, 'b': 2, 'c': 3} |should_not| include_values(0, 4)
 
@@ -398,6 +418,7 @@ Checks if an object has a given attribute or method.
 
 ::
 
+    >>> from should_dsl import respond_to
     >>> 'some string' |should| respond_to('startswith')
 
     >>> class Foo:
@@ -414,6 +435,7 @@ Verifies if a string starts with a given prefix.
 
 ::
 
+    >>> from should_dsl import start_with
     >>> "Brazil champion of 2010 FIFA world cup" |should| start_with('Brazil champion')
     >>> "hello world" |should_not| start_with('Hello')
 
@@ -423,6 +445,7 @@ Verifies if an object have the same attribute values as another one.
 
 ::
 
+    >>> from should_dsl import have_same_attribute_values_as
     >>> class Foo(object):
     ...    def __init__(self, a, b):
     ...        self.a = a
@@ -432,3 +455,4 @@ Verifies if an object have the same attribute values as another one.
     >>> b = Foo(1,2)
 
     >>> a |should| have_same_attribute_values_as(b)
+

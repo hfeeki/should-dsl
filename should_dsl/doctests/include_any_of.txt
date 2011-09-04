@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, include_any_of
 
 >>> [1, 2, 3] |should| include_any_of([1, 2])
 

@@ -1,4 +1,4 @@
->>> from should_dsl import *
+>>> from should_dsl import should, should_not, be_instance_of
 
 >>> class Foo(object):
 ...    pass

@@ -22,6 +22,7 @@ class Should(object):
     def __ror__(self, lvalue):
         self._lvalue = lvalue
         self._create_function_matchers()
+        self._inject_negate_information()
         return self
 
     def __or__(self, rvalue):
@@ -38,17 +39,8 @@ class Should(object):
 
     def _destroy_function_matchers(self):
         self._outer_frame = sys._getframe(2).f_globals
-        self._remove_matchers_from_namespace()
-        self._put_original_identifiers_back()
-
-    def _remove_matchers_from_namespace(self):
-        self._remove_regular_matchers_from_namespace()
         self._remove_predicate_matchers_from_namespace()
-
-    def _remove_regular_matchers_from_namespace(self):
-        f_globals = self._outer_frame
-        for matcher_name in list(self._matchers_by_name.keys()):
-            del f_globals[matcher_name]
+        self._put_original_identifiers_back()
 
     def _remove_predicate_matchers_from_namespace(self):
         f_globals = self._outer_frame
@@ -62,36 +54,25 @@ class Should(object):
             f_globals[attr_name] = attr_ref
         self._identifiers_named_equal_matchers.clear()
 
-
     def _create_function_matchers(self):
         self._outer_frame = sys._getframe(2).f_globals
         self._save_clashed_identifiers()
-        self._put_matchers_on_namespace()
+        self._put_predicate_matchers_on_namespace()
 
     def _save_clashed_identifiers(self):
         f_globals = self._outer_frame
         predicate_matcher_names = ['be_' + attr_name for attr_name in dir(self._lvalue) if not attr_name.startswith('_')]
-        for matcher_name in list(self._matchers_by_name.keys()) + predicate_matcher_names:
+        for matcher_name in predicate_matcher_names:
             if matcher_name in f_globals:
                 self._identifiers_named_equal_matchers[matcher_name] = f_globals[matcher_name]
 
-    def _put_matchers_on_namespace(self):
-        self._put_regular_matchers_on_namespace()
-        self._put_predicate_matchers_on_namespace()
-
-    def _put_regular_matchers_on_namespace(self):
-        f_globals = self._outer_frame
+    def _inject_negate_information(self):
         for matcher_name, matcher_function in self._matchers_by_name.items():
-            matcher_function = self._matchers_by_name[matcher_name]
-            matcher = matcher_function()
-            self._inject_negate_information(matcher)
-            f_globals[matcher_name] = matcher
-
-    def _inject_negate_information(self, matcher):
-        try:
-            matcher.run_with_negate = self._negate
-        except AttributeError:
-            pass
+            matcher = getattr(sys.modules['should_dsl'], matcher_name)
+            try:
+                matcher.run_with_negate = self._negate
+            except AttributeError:
+                pass
 
     def _put_predicate_matchers_on_namespace(self):
         f_globals = self._outer_frame
@@ -140,6 +121,7 @@ class Should(object):
         else:
             name = matcher_object.name
         self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
+        setattr(sys.modules['should_dsl'], name, matcher_object())
         self._matchers_by_name[name] = matcher_object
 
     def _ensure_matcher_init_doesnt_have_arguments(self, matcher_object):
@@ -168,6 +150,7 @@ class Should(object):
         for name, alias in aliases.items():
             matcher = self._matchers_by_name[name]
             self._matchers_by_name[alias] = matcher
+            setattr(sys.modules['should_dsl'], alias, matcher())
 
 
 class _PredicateMatcher(object):

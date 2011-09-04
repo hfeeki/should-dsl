@@ -1,4 +1,4 @@
->>> from should_dsl import should, should_not
+>>> from should_dsl import should, should_not, respond_to
 
 >>> class Foo(object):
 ...     def bar(self):
