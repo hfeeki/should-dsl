@@ -1,0 +1,36 @@
+>>> from should_dsl import should, should_not
+
+Since Should-DSL uses __ror__ for performing its tasks, it will not work when
+the actual object (the left side one) defines __or__ operator:
+
+>>> class Clock(object):
+...     def __or__(self, other):
+...          return True
+...     def working(self):
+...         return True
+
+>>> clock = Clock()
+>>> clock |should| be(clock)
+Traceback (most recent call last):
+...
+NameError: name 'be' is not defined
+
+
+In order to provide a way to deal with these objects, a enclosing function,
+called _ (underscore) is provided. The absolute neutrality of its name is
+purposeful: the name should be replaced by a word that makes sense in the
+context of the test. In the example below, the word "this" was chosen:
+
+>>> from should_dsl import _ as this
+
+>>> this(clock) |should| be_working
+
+>>> this(clock) |should_not| be_working
+Traceback (most recent call last):
+...
+ShouldNotSatisfied: expected working() to return False, got True
+
+
+Although is possible to use this feature in any situation, we recommend its use
+only in cases as the one described above.
+

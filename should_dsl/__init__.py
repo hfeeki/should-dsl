@@ -4,6 +4,7 @@ from should_dsl.dsl import (should,
                          add_predicate_regex,
                          matcher_configuration,
                          aliases,
-                         ShouldNotSatisfied)
+                         ShouldNotSatisfied,
+                         _)
 from should_dsl import matchers
 

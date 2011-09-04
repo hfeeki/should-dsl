@@ -20,7 +20,7 @@ class Should(object):
         return value
 
     def __ror__(self, lvalue):
-        self._lvalue = lvalue
+        self._lvalue = self._is_enclosed(lvalue) and lvalue.actual or lvalue
         self._create_function_matchers()
         return self
 
@@ -34,6 +34,9 @@ class Should(object):
             raise ShouldNotSatisfied(self._negate and \
                 self._rvalue.message_for_failed_should_not() or \
                 self._rvalue.message_for_failed_should())
+
+    def _is_enclosed(self, actual):
+        return actual.__class__ is _Enclosing
 
 
     def _destroy_function_matchers(self):
@@ -243,4 +246,14 @@ def matcher_configuration(verifier, message, word_not_for=should_not):
 def aliases(**kwargs):
     should.add_aliases(**kwargs)
     should_not.add_aliases(**kwargs)
+
+
+class _Enclosing(object):
+
+    def __init__(self, actual):
+        self.actual = actual
+
+
+def _(actual):
+    return _Enclosing(actual)
 
