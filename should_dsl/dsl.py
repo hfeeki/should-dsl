@@ -3,9 +3,6 @@ import re
 from types import FunctionType
 
 
-_predicate_regexes = set(['is_(.+)', 'is(.+)'])
-
-
 class Should(object):
 
     def __init__(self, negate=False):
