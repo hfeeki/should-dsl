@@ -138,7 +138,8 @@ class Should(object):
             matcher_object = GeneratedMatcher
             name = GeneratedMatcher.name
         else:
-            name = matcher_object.name
+            name = getattr(matcher_object, 'name', _snakize_class_name(
+                matcher_object))
         self._ensure_matcher_init_doesnt_have_arguments(matcher_object)
         self._matchers_by_name[name] = matcher_object
 
@@ -168,6 +169,16 @@ class Should(object):
         for name, alias in aliases.items():
             matcher = self._matchers_by_name[name]
             self._matchers_by_name[alias] = matcher
+
+
+def _snakize_class_name(klass):
+    class_name = str(klass.__name__).split('.')[-1]
+    snaked = ''
+    for ch in class_name:
+        if ch.isupper() and len(snaked) > 0:
+            snaked += '_'
+        snaked += ch.lower()
+    return snaked
 
 
 class _PredicateMatcher(object):

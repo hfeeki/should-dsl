@@ -1,0 +1,24 @@
+>>> from should_dsl import should, should_not, matcher
+
+If a matcher class does not have a "name" attribute, matcher name is inferred
+from the class name.
+
+>>> import math
+>>> class BeTheSquareRootOf(object):
+...     def __call__(self, arg):
+...         self._arg = arg
+...         return self
+...     def match(self, lvalue):
+...         self._lvalue = lvalue
+...         return lvalue == math.sqrt(self._arg)
+...     def message_for_failed_should(self):
+...         return "expected %s be the square root of %s, but it is not" % (
+...                     self._lvalue, self._arg)
+...     def message_for_failed_should_not(self):
+...         return "expected %s not be the square root of %s, but it is" % (
+...                     self._lvalue, self._arg)
+...
+>>> BeTheSquareRootOf = matcher(BeTheSquareRootOf)
+
+>>> 3 |should| be_the_square_root_of(9)
+
